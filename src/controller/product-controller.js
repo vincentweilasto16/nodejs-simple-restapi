@@ -13,6 +13,24 @@ const create = async (req, res, next) => {
     }
 }
 
+const update = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const productId = req.params.productId;
+        const request = req.body;
+        request.id = productId;
+
+        const result = await productService.update(user, request);
+        res.status(200).json({
+            data: result
+        })
+    } catch (e) {
+        next(e);
+    }
+}
+
+
 export default {
-    create
+    create,
+    update
 }

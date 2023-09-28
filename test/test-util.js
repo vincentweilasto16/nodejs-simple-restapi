@@ -35,3 +35,24 @@ export const removeAllTestProducts = async () => {
         }
     });
 }
+
+export const createTestProduct = async () => {
+    await prismaClient.product.create({
+        data: {
+            username: "test",
+            name: "Iphone X",
+            description: "New Brand Iphone X",
+            price: 800,
+            quantity: 100,
+            image_url: "https://iphone-x.png"
+        }
+    })
+}
+
+export const getTestProduct = async () => {
+    return prismaClient.product.findFirst({
+        where: {
+            username: 'test'
+        }
+    })
+}
