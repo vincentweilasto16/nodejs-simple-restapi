@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import {web} from "../src/application/web"
 import { logger } from "../src/application/logging";
-import { removeTestUser, createTestUser } from "./test-util.js"
+import { removeTestUser, createTestUser, getTestUser } from "./test-util.js"
 
 // Register User API TEST
 describe('POST /api/users', function (){
@@ -167,6 +167,38 @@ describe('GET /api/users/current', function (){
             .set('Authorization', 'salah');
         
         logger.info(result.body);
+
+        expect(result.status).toBe(401);
+        expect(result.body.errors).toBeDefined();
+    });
+});
+
+// Logout User API TEST
+describe('DELETE /api/users/logout', function (){
+    beforeEach(async () => {
+        await createTestUser();
+    });
+
+    afterEach(async () => {
+        await removeTestUser();
+    });
+
+    it('should can logout', async () => {
+        const result = await supertest(web)
+            .delete('/api/users/logout')
+            .set('Authorization', 'test');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBe("OK");
+
+        const user = await getTestUser();
+        expect(user.token).toBe(null);
+    });
+
+    it('should reject logout if token is invalid', async () => {
+        const result = await supertest(web)
+            .delete('/api/users/logout')
+            .set('Authorization', 'salah');
 
         expect(result.status).toBe(401);
         expect(result.body.errors).toBeDefined();

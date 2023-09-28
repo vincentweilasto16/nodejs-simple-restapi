@@ -64,42 +64,6 @@ Response Body Error :
 }
 ```
 
-## Update User API
-
-Endpoint : PATCH /api/users/current
-
-Headers :
-
-- Authorization : token
-
-Request Body :
-
-```json
-{
-  "name": "Budi Wicaksono", // optional
-  "password": "budiwicaksono123" // optional
-}
-```
-
-Response Body Success :
-
-```json
-{
-  "data": {
-    "username": "budi123",
-    "name": "Budi Wicaksono"
-  }
-}
-```
-
-Response Body Error :
-
-```json
-{
-  "errors": "Name length max 100"
-}
-```
-
 ## Get User API
 
 Endpoint : GET /api/users/current
