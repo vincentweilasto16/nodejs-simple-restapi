@@ -27,3 +27,11 @@ export const getTestUser = async () => {
         }
     });
 }
+
+export const removeAllTestProducts = async () => {
+    await prismaClient.product.deleteMany({
+        where: {
+            username: "test"
+        }
+    });
+}
