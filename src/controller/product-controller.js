@@ -29,8 +29,23 @@ const update = async (req, res, next) => {
     }
 }
 
+const remove = async (req, res, next) => {
+    try {
+        const user = req.user;
+        const productId = req.params.productId;
+
+        await productService.remove(user, productId);
+        res.status(200).json({
+            data: "OK"
+        })
+    } catch (e) {
+        next(e);
+    }
+}
+
 
 export default {
     create,
-    update
+    update,
+    remove
 }

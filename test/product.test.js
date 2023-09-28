@@ -128,3 +128,38 @@ describe('PUT /api/products/:productId', function () {
         expect(result.status).toBe(404);
     });
 });
+
+// Remove Product API TEST
+describe('DELETE /api/products/:productId', function () {
+    beforeEach(async () => {
+        await createTestUser();
+        await createTestProduct();
+    })
+
+    afterEach(async () => {
+        await removeAllTestProducts();
+        await removeTestUser();
+    })
+
+    it('should can delete product', async () => {
+        let testProduct = await getTestProduct();
+        const result = await supertest(web)
+            .delete('/api/products/' + testProduct.id)
+            .set('Authorization', 'test');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data).toBe("OK");
+
+        testProduct = await getTestProduct();
+        expect(testProduct).toBeNull();
+    });
+
+    it('should reject if product is not found', async () => {
+        let testProduct = await getTestProduct();
+        const result = await supertest(web)
+            .delete('/api/products/' + (testProduct.id + 1))
+            .set('Authorization', 'test');
+
+        expect(result.status).toBe(404);
+    });
+});

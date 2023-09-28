@@ -3,7 +3,8 @@ import {prismaClient} from "../application/database.js";
 import {ResponseError} from "../error/response-error.js";
 import {
     createProductValidation,
-    updateProductValidation
+    updateProductValidation,
+    getProductValidation
 } from "../validation/product-validation.js";
 
 const create = async (user, request) => {
@@ -59,7 +60,30 @@ const update = async (user, request) => {
     })
 }
 
+const remove = async (user, productId) => {
+    productId = validate(getProductValidation, productId);
+
+    const totalProductInDatabase = await prismaClient.product.count({
+        where: {
+            username: user.username,
+            id: productId
+        }
+    });
+
+    if (totalProductInDatabase !== 1) {
+        throw new ResponseError(404, "product is not found");
+    }
+
+    return prismaClient.product.delete({
+        where: {
+            id: productId
+        }
+    });
+}
+
+
 export default {
     create,
-    update
+    update,
+    remove
 }
