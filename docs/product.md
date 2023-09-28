@@ -119,14 +119,6 @@ Response Body Success :
 }
 ```
 
-Response Body Error :
-
-```json
-{
-  "errors": "product is not found"
-}
-```
-
 ## Remove Product API
 
 Endpoint : DELETE /api/products/:productId

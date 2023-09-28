@@ -3,6 +3,7 @@ import {
     removeTestUser,
     removeAllTestProducts,
     createTestProduct,
+    createManyTestProducts,
     getTestProduct
 } from "./test-util.js";
 import supertest from "supertest";
@@ -161,5 +162,28 @@ describe('DELETE /api/products/:productId', function () {
             .set('Authorization', 'test');
 
         expect(result.status).toBe(404);
+    });
+});
+
+// Get List Product API TEST
+describe('GET /api/products', function () {
+    beforeEach(async () => {
+        await createTestUser();
+        await createManyTestProducts();
+    })
+
+    afterEach(async () => {
+        await removeAllTestProducts();
+        await removeTestUser();
+    })
+
+    it('should can get a list of products', async function () {
+
+        const result = await supertest(web)
+            .get('/api/products')
+            .set('Authorization', 'test');
+
+        expect(result.status).toBe(200);
+        expect(result.body.data.length).toBe(15);
     });
 });

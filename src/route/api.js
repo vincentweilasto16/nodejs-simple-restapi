@@ -11,6 +11,7 @@ userRouter.get('/api/users/current', userController.get);
 userRouter.delete('/api/users/logout', userController.logout);
 
 // Product API
+userRouter.get('/api/products', productController.list);
 userRouter.post('/api/products', productController.create);
 userRouter.put('/api/products/:productId', productController.update);
 userRouter.delete('/api/products/:productId', productController.remove);

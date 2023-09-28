@@ -81,9 +81,27 @@ const remove = async (user, productId) => {
     });
 }
 
+const list = async (username) => {
+
+    return prismaClient.product.findMany({
+        where: {
+            username: username
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            quantity: true,
+            image_url: true,
+        }
+    })
+}
+
 
 export default {
     create,
     update,
-    remove
+    remove,
+    list
 }

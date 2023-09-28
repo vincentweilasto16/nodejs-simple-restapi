@@ -43,9 +43,21 @@ const remove = async (req, res, next) => {
     }
 }
 
+const list = async (req, res, next) => {
+    try {
+        const result = await productService.list(req.user.username);
+        res.status(200).json({
+            data: result
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
 
 export default {
     create,
     update,
-    remove
+    remove,
+    list
 }

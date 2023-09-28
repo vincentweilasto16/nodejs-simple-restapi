@@ -49,6 +49,21 @@ export const createTestProduct = async () => {
     })
 }
 
+export const createManyTestProducts = async () => {
+    for (let i = 0; i < 15; i++) {
+        await prismaClient.product.create({
+            data: {
+                username: `test`,
+                name: `product test ${i}`,
+                description: `product description test ${i}`,
+                price: 800 + i,
+                quantity: 100 + i,
+                image_url: `https://product-test${i}.png`
+            }
+        })
+    }
+}
+
 export const getTestProduct = async () => {
     return prismaClient.product.findFirst({
         where: {
